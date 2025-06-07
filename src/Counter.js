@@ -3,6 +3,19 @@ import React, { useState } from 'react';
 function Counter(props) {
     const [counter, setCounter] = useState(props.initialValue);
 
+    const buttonStyle = {
+        backgroundColor: '#e74c3c',
+        color: '#fff',
+        border: 'none',
+        padding: '10px 10px',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        fontSize: '12px',
+        transition: 'background-color 0.3s',
+        marginRight: '10px'
+    }
+
     return React.createElement(
         'div',
         { className: 'display_num'},
@@ -13,12 +26,12 @@ function Counter(props) {
         ),
         React.createElement(
             'button',
-            { onClick: () => setCounter(counter + 1), style: { marginRight: '10px' } },
+            { onClick: () => setCounter(counter + 1), style: buttonStyle },
             'Increment'
         ),
         React.createElement(
             'button',
-            { onClick: () => setCounter(counter - 1) },
+            { onClick: () => setCounter(counter - 1), style: buttonStyle },
             'Decrement'
         )
     );
