@@ -1,6 +1,6 @@
 import React from 'react';
 
-function GenreList(props) {
+function GenreSelect(props) {
     const { genres, selectedGenre, onSelect } = props;
 
     const barStyle = {
@@ -49,4 +49,4 @@ function GenreList(props) {
     );
 }
 
-export default GenreList;
+export default GenreSelect;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function SearchBox(props) {
+function SearchForm(props) {
     const[query, setQuery] = useState(props.initialQuery);
 
     const handleQueryChange = (event) => {
@@ -84,4 +84,4 @@ function SearchBox(props) {
     );
 }
 
-export default SearchBox;
+export default SearchForm;

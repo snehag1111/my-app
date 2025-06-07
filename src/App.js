@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import GenreList from './GenreList';
 import Counter from './Counter';
-import SearchBox from './SearchBox';
+import GenreSelect from './GenreSelect';
+import SearchForm from './SearchForm';
 
 function App() {
     const [selectedGenre, setSelectedGenre] = useState('ALL');
@@ -23,14 +23,14 @@ function App() {
             { initialValue: 0 }
         ),
         React.createElement(
-            SearchBox,
+            SearchForm,
             { 
                 initialQuery: 'Baby\'s Day Out',
                 onSearch: handleSearch
                 }
         ),
         React.createElement(
-            GenreList, 
+            GenreSelect, 
             {
                 genres,
                 selectedGenre,
