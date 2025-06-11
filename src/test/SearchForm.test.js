@@ -1,5 +1,5 @@
 import { render, fireEvent, screen } from '@testing-library/react';
-import SearchForm from "./SearchForm";
+import SearchForm from "../SearchForm";
 import userEvent from "@testing-library/user-event";
 
 describe('SearchForm Component', () => {

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import GenreSelect from "./GenreSelect";
+import GenreSelect from "../GenreSelect";
 
 describe('GenreSelect Component', () => {
     test('render all genres passed in props', () => {

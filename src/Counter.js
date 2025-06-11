@@ -26,12 +26,12 @@ function Counter(props) {
         ),
         React.createElement(
             'button',
-            { onClick: () => setCounter(counter + 1), style: buttonStyle },
+            { className: 'inc-btn', onClick: () => setCounter(counter + 1), style: buttonStyle },
             'Increment'
         ),
         React.createElement(
             'button',
-            { onClick: () => setCounter(counter - 1), style: buttonStyle },
+            { className: 'dec-btn', onClick: () => setCounter(counter - 1), style: buttonStyle },
             'Decrement'
         )
     );
