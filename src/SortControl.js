@@ -1,5 +1,4 @@
 import React from "react";
-import { background, color } from "storybook/internal/theming";
 
 const SortControl = ({ selectedValue, onChange }) => {
 

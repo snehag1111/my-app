@@ -1,4 +1,3 @@
-import { userEvent, within } from '@storybook/testing-library';
 import GenreSelect from '../GenreSelect';
 
 export default {
