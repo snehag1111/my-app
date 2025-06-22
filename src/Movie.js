@@ -10,11 +10,8 @@ const Movie = ({ movies, onMovieSelect }) => {
                 MovieTitle, 
                 {
                     key: index,
-                    imageUrl: movie.imageUrl, 
-                    movieName: movie.movieName, 
-                    releaseYr: movie.releaseYr, 
-                    genres: movie.genres, 
-                    onClick: () => onMovieSelect(movie.movieName)
+                    movie,
+                    onClick: () => onMovieSelect(movie)
                 }
             )
         })

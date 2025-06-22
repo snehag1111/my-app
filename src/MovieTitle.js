@@ -1,7 +1,7 @@
 import React from "react";
 
 function MovieTitle(props) {
-    const { imageUrl, movieName, releaseYr, genres, onClick } = props;
+    const { movie, onClick } = props;
 
 const styles = {
   card: {
@@ -65,10 +65,10 @@ const styles = {
 
     return React.createElement(
         'div',
-        { className: 'movie-card', onClick: onClick, style: { ...styles.card } },
+        { className: 'movie-card', onClick: () => onClick(movie), style: { ...styles.card } },
         React.createElement(
             'img', 
-            { src: imageUrl, alt: movieName, style: styles.image }
+            { src: movie.imageUrl, alt: movie.movieName, style: styles.image }
         ),
         React.createElement(
             'div',
@@ -79,18 +79,18 @@ const styles = {
                 React.createElement(
                     'div',
                     { style: styles.title },
-                    movieName
+                    movie.movieName
                 ),
                 React.createElement(
                     'span',
                     { style: styles.releaseYear },
-                    releaseYr
+                    movie.releaseYr
                 )
             ),
                 React.createElement(
                     'div',
                     { style: styles.genres },
-                    genres.map((genre, index) => {
+                    movie.genres.map((genre, index) => {
                         return React.createElement(
                             'span',
                             { key: index, style: styles.genre},
