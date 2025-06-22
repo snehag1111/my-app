@@ -7,16 +7,13 @@ import Movie2 from './images/Movie2.png';
 import Movie3 from './images/Movie3.png';
 import Movie from './Movie';
 import MovieDetails from './MovieDetails';
+import SortControl from './SortControl';
 
 function App() {
     const [selectedGenre, setSelectedGenre] = useState('ALL');
     const [selectedMovieDetail, setSelectedMovieDetail] = useState(false);
-    const [selectedMovie, setSelectedMovie] = useState({
-            imageUrl: Movie1,
-            movieName: 'Bays\'s Day Out',
-            releaseYr: '1994',
-            genres: ['Comedy', 'Drama', 'Children\'s Film'],
-    });
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [sortBy, setSortBy] = useState('Release Date');
     const genres = ['ALL', 'DOCUMENTARY', 'COMEDY', 'HORROR', 'CRIME'];
 
     const handleSearch = (query) => {
@@ -64,15 +61,15 @@ function App() {
         }
     ];
 
-    const movie = {
-        imageUrl: Movie3,
-        movieName: 'Inception',
-        genres: ['Action', 'Sci-Fi', 'Thriller'],
-        duration: '2h 28m',
-        releaseYr: 2010,
-        desc:
-        'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
-    }
+    const sortedMoviesList = [...moviesList].sort((a, b) => {
+        if(sortBy === 'Title') {
+            return a.movieName.localeCompare(b.movieName);
+        }
+        else if(sortBy === 'Release Date') {
+            return b.releaseYr - a.releaseYr;
+        }
+        return 0;
+    });
 
     return React.createElement(
         'div',
@@ -101,13 +98,17 @@ function App() {
             {
                 genres,
                 selectedGenre,
-                onSelect: handleSelectGenre
+                onSelect: handleSelectGenre,
+                selectedSortBy: sortBy,
+                onSortByChange: (value) => {
+                    setSortBy(value);
+                }
             }
         ),
         React.createElement(
             Movie,
             {
-                movies: moviesList,
+                movies: sortedMoviesList,
                 onMovieSelect: (movie) => handleMovieSelect(movie)
             }
         )
