@@ -7,13 +7,16 @@ import Movie2 from './images/Movie2.png';
 import Movie3 from './images/Movie3.png';
 import Movie from './Movie';
 import MovieDetails from './MovieDetails';
-import SortControl from './SortControl';
+import Dialog from './Dialog';
+import MovieForm from './MovieForm';
 
 function App() {
     const [selectedGenre, setSelectedGenre] = useState('ALL');
     const [selectedMovieDetail, setSelectedMovieDetail] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [sortBy, setSortBy] = useState('Release Date');
+    const [isOpen, setIsOpen] = useState(false);
+    const [title, setTitle] = useState('ADD MOVIE');
     const genres = ['ALL', 'DOCUMENTARY', 'COMEDY', 'HORROR', 'CRIME'];
 
     const handleSearch = (query) => {
@@ -28,11 +31,28 @@ function App() {
         console.log(movie);
         setSelectedMovie(movie);
         setSelectedMovieDetail(true);
+        movie.action === 'Edit' ? setTitle('EDIT MOVIE') : (movie.action === 'Delete' ? setTitle('DELETE MOVIE') : setTitle('ADD MOVIE'));
+        movie.action === 'Edit' ? setIsOpen(true) : (movie.action === 'Delete' ? setIsOpen(true) : setIsOpen(false));
     };
+
+    const handleMovieAdd = () => {
+        setSelectedMovie(null);
+        setSelectedMovieDetail(false);
+        setTitle('ADD MOVIE');
+        setIsOpen(true)
+    }
 
     const handleSearchIcon = () => {
         setSelectedMovieDetail(false);
     }
+    
+    const closeDialog = () => setIsOpen(false);
+
+    const handleMovie = (movie) => {
+        alert('movie handled');
+    };
+
+    
 
     const moviesList = [
         {
@@ -71,6 +91,22 @@ function App() {
         return 0;
     });
 
+    const buttonStyle = {
+        backgroundColor: '#e74c3c',
+        color: '#fff',
+        border: 'none',
+        padding: '10px 10px',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontWeight: 'bold',
+        fontSize: '12px',
+        transition: 'background-color 0.3s',
+        marginRight: '10px',
+        marginTop: '10px',
+        position: 'absolute',
+        right: '500px',
+    }
+
     return React.createElement(
         'div',
         null,
@@ -87,11 +123,21 @@ function App() {
              }
         ) :
         React.createElement(
+            'div',
+            null,
+            
+        React.createElement(
+            'button',
+            { onClick: handleMovieAdd, style: buttonStyle },
+            'Add Movie'
+        ),
+        React.createElement(
             SearchForm,
             { 
                 initialQuery: 'Baby\'s Day Out',
                 onSearch: handleSearch
                 }
+        ),
         ),
         React.createElement(
             GenreSelect, 
@@ -111,6 +157,17 @@ function App() {
                 movies: sortedMoviesList,
                 onMovieSelect: (movie) => handleMovieSelect(movie)
             }
+        ),
+        isOpen && 
+        React.createElement(
+            Dialog,
+            { title: title, onClose: closeDialog },
+            React.createElement(
+                MovieForm, {
+                    initialMovie: selectedMovie,
+                    onSubmit: handleMovie
+                }
+            )
         )
     );
 };
