@@ -2,7 +2,7 @@ import React from "react";
 
 const MovieDetails = ({ movie, onSearchClick }) => {
 
-    console.log('MovieDetails ', movie);
+    console.log('movie ' + movie);
 
     const styles = {
         wrapper: {
@@ -87,8 +87,8 @@ const MovieDetails = ({ movie, onSearchClick }) => {
             React.createElement(
                 'img',
                 {
-                    src: movie.imageUrl,
-                    alt: movie.movieName,
+                    src: movie?.imageUrl,
+                    alt: movie?.movieName,
                     style: styles.image
                 }
             ),
@@ -98,12 +98,12 @@ const MovieDetails = ({ movie, onSearchClick }) => {
                 React.createElement(
                     'div',
                     { style: styles.title },
-                    movie.movieName.toUpperCase()
+                    movie?.movieName.toUpperCase()
                 ),
                 React.createElement(
                     'div',
                     { style: styles.genres },
-                    movie.genres.map((genre, index) => {
+                    movie?.genres.map((genre, index) => {
                         return React.createElement(
                             'span',
                             { style: styles.genreBadge, key: index },
@@ -117,18 +117,18 @@ const MovieDetails = ({ movie, onSearchClick }) => {
                     React.createElement(
                         'span',
                         { style: styles.detail },
-                        movie.releaseYr
+                        movie?.releaseYr
                     ),
                     React.createElement(
                         'span',
                         { style: styles.detail },
-                        movie.duration
+                        movie?.duration
                     )
                 ),
                 React.createElement(
                     'p',
                     { style: styles.description },
-                    movie.desc
+                    movie?.desc
                 )
             )
         )
