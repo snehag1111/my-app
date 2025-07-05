@@ -7,7 +7,7 @@ import MovieDetails from './MovieDetails';
 import Dialog from './Dialog';
 import MovieForm from './MovieForm';
 
-function App() {
+function MovieListPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedGenre, setSelectedGenre] = useState('ALL');
     const [selectedMovieDetail, setSelectedMovieDetail] = useState(false);
@@ -166,4 +166,4 @@ function App() {
     );
 };
 
-export default App;
+export default MovieListPage;
