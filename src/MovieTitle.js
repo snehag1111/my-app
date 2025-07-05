@@ -114,8 +114,8 @@ function MovieTitle(props) {
       "div",
       { style: styles.imageWrapper },
       React.createElement("img", {
-        src: movie.imageUrl,
-        alt: movie.movieName,
+        src: movie.poster_path,
+        alt: movie.title,
         style: styles.image,
       }),
       React.createElement(
@@ -148,12 +148,12 @@ function MovieTitle(props) {
         React.createElement(
           "div",
           { style: styles.title },
-          movie.movieName
+          movie.title
         ),
         React.createElement(
           "span",
           { style: styles.releaseYear },
-          movie.releaseYr
+          movie.release_date
         )
       ),
       React.createElement(

@@ -87,8 +87,8 @@ const MovieDetails = ({ movie, onSearchClick }) => {
             React.createElement(
                 'img',
                 {
-                    src: movie?.imageUrl,
-                    alt: movie?.movieName,
+                    src: movie?.poster_path,
+                    alt: movie?.title,
                     style: styles.image
                 }
             ),
@@ -98,7 +98,7 @@ const MovieDetails = ({ movie, onSearchClick }) => {
                 React.createElement(
                     'div',
                     { style: styles.title },
-                    movie?.movieName.toUpperCase()
+                    movie?.title
                 ),
                 React.createElement(
                     'div',
@@ -117,18 +117,18 @@ const MovieDetails = ({ movie, onSearchClick }) => {
                     React.createElement(
                         'span',
                         { style: styles.detail },
-                        movie?.releaseYr
+                        movie?.release_date
                     ),
                     React.createElement(
                         'span',
                         { style: styles.detail },
-                        movie?.duration
+                        movie?.runtime
                     )
                 ),
                 React.createElement(
                     'p',
                     { style: styles.description },
-                    movie?.desc
+                    movie?.overview
                 )
             )
         )

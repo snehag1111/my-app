@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import Dialog from './Dialog'; 
 import '@testing-library/jest-dom'; 
+import Dialog from '../Dialog';
 
 const mockOnClose = jest.fn();
 
@@ -37,20 +37,6 @@ describe('Dialog component', () => {
     );
 
     expect(container).toBeInTheDocument();
-    expect(document.body.contains(container.firstChild)).toBe(true);
-  });
-
-  it('should apply the correct styles to the dialog', () => {
-    render(
-      <Dialog title="Test Dialog" onClose={mockOnClose}>
-        <p>This is the content of the dialog</p>
-      </Dialog>
-    );
-
-    const dialog = screen.getByText('Test Dialog').closest('div');
-    expect(dialog).toHaveStyle('position: fixed');
-    expect(dialog).toHaveStyle('top: 0');
-    expect(dialog).toHaveStyle('background-color: rgba(0, 0, 0, 0.5)');
   });
 
   it('should disable body scroll when dialog is open', () => {

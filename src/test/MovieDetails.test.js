@@ -1,17 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import MovieDetails from "../MovieDetails";
 import Movie3 from '../images/Movie3.png';
-import { fireEvent } from "@storybook/testing-library";
 
 
 const movie = 
       {
-            imageUrl: Movie3,
-            movieName: 'Inception',
+            poster_path: Movie3,
+            title: 'Inception',
             genres: ['Action', 'Sci-Fi', 'Thriller'],
-            duration: '2h 28m',
-            releaseYr: 2010,
-            desc: 'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
+            runtime: '2h 28m',
+            release_date: 2010,
+            overview: 'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
         };
 
 describe('MovieDetails component', () => {
@@ -23,7 +22,7 @@ describe('MovieDetails component', () => {
             />
         );
 
-        expect(screen.getByText('INCEPTION')).toBeInTheDocument();
+        expect(screen.getByText('Inception')).toBeInTheDocument();
         expect(screen.getByText('2010')).toBeInTheDocument();
     });
 
@@ -61,7 +60,7 @@ describe('MovieDetails component', () => {
 
         const img = screen.getByRole('img');
 
-        expect(img).toHaveAttribute('src', movie.imageUrl);
-        expect(img).toHaveAttribute('alt', movie.movieName);
+        expect(img).toHaveAttribute('src', movie.poster_path);
+        expect(img).toHaveAttribute('alt', movie.title);
     });
 });

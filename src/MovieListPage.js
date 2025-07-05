@@ -1,38 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Counter from './Counter';
 import GenreSelect from './GenreSelect';
 import SearchForm from './SearchForm';
-import Movie1 from './images/Movie1.png';
-import Movie2 from './images/Movie2.png';
-import Movie3 from './images/Movie3.png';
 import Movie from './Movie';
 import MovieDetails from './MovieDetails';
 import Dialog from './Dialog';
 import MovieForm from './MovieForm';
 
-function App() {
+function MovieListPage() {
+    const [searchQuery, setSearchQuery] = useState('');
     const [selectedGenre, setSelectedGenre] = useState('ALL');
     const [selectedMovieDetail, setSelectedMovieDetail] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState(null);
-    const [sortBy, setSortBy] = useState('Release Date');
+    const [sortBy, setSortBy] = useState('release_date');
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState('ADD MOVIE');
     const genres = ['ALL', 'DOCUMENTARY', 'COMEDY', 'HORROR', 'CRIME'];
-
-    const handleSearch = (query) => {
-        alert(`Searching for: ${query}`);
-    };
-
-    const handleSelectGenre = (genre) => {
-        setSelectedGenre(genre);
-    };
+    const [moviesList, setMoviesList] = useState({
+        "totalAmount": 0,
+        "data": []
+    });
 
     const handleMovieSelect = (movie) => {
         console.log(movie);
-        setSelectedMovie(movie);
         setSelectedMovieDetail(true);
         movie.action === 'Edit' ? setTitle('EDIT MOVIE') : (movie.action === 'Delete' ? setTitle('DELETE MOVIE') : setTitle('ADD MOVIE'));
         movie.action === 'Edit' ? setIsOpen(true) : (movie.action === 'Delete' ? setIsOpen(true) : setIsOpen(false));
+        fetchSelectedMovie(movie.id);
     };
 
     const handleMovieAdd = () => {
@@ -52,45 +46,6 @@ function App() {
         alert('movie handled');
     };
 
-    
-
-    const moviesList = [
-        {
-            imageUrl: Movie1,
-            movieName: 'Bays\'s Day Out',
-            releaseYr: '1994',
-            genres: ['Comedy', 'Drama', 'Children\'s Film'],
-            duration: '1h 39m',
-            desc: 'A wealthy couple\'s baby is kidnapped by three inept criminals, but the baby escapes and embarks on an adventurous crawl through the city, unknowingly staying one step ahead of the pursuers at every turn.'
-        },
-        {
-            imageUrl: Movie2,
-            movieName: 'The Dark Knight',
-            genres: ['Action', 'Crime', 'Drama'],
-            releaseYr: 2008,
-            duration: '2h 32m',
-            desc: 'Batman raises the stakes in his war on crime with the help of Lt. Jim Gordon and District Attorney Harvey Dent. Their efforts are derailed by the Joker — a criminal mastermind who thrusts Gotham into chaos and forces Batman to confront the fine line between hero and vigilante.'
-        },
-        {
-            imageUrl: Movie3,
-            movieName: 'Inception',
-            genres: ['Action', 'Sci-Fi', 'Thriller'],
-            duration: '2h 28m',
-            releaseYr: 2010,
-            desc: 'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
-        }
-    ];
-
-    const sortedMoviesList = [...moviesList].sort((a, b) => {
-        if(sortBy === 'Title') {
-            return a.movieName.localeCompare(b.movieName);
-        }
-        else if(sortBy === 'Release Date') {
-            return b.releaseYr - a.releaseYr;
-        }
-        return 0;
-    });
-
     const buttonStyle = {
         backgroundColor: '#e74c3c',
         color: '#fff',
@@ -105,7 +60,42 @@ function App() {
         marginTop: '10px',
         position: 'absolute',
         right: '500px',
+    };  
+
+    const fetchMovie = async() => {
+        const baseUrl = 'http://localhost:4000/movies';
+        const params = new URLSearchParams();
+        if(selectedGenre !== 'ALL')
+            params.append('filter', selectedGenre);
+        params.append('limit', 50);
+        params.append('search', searchQuery);
+        params.append('searchBy', 'title');
+        params.append('sortOrder', 'asc');
+        params.append('sortBy', sortBy);
+        const url = `${baseUrl}?${params}`;
+        console.log('url ' + url);
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setMoviesList({totalAmount: data.totalAmount, data: data.data});
+        }
+        catch(error) {
+            throw new Error('Failed to fetch movies');
+        }
+    };
+
+    const fetchSelectedMovie = async(id) => {
+        const url = `http://localhost:4000/movies/${id}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setSelectedMovie(data);
     }
+
+    useEffect(() => {
+        console.log('calling useEffect')
+        fetchMovie();
+    }, [selectedGenre, searchQuery, sortBy]);
+
 
     return React.createElement(
         'div',
@@ -135,8 +125,10 @@ function App() {
             SearchForm,
             { 
                 initialQuery: 'Baby\'s Day Out',
-                onSearch: handleSearch
+                onSearch: (value) => {
+                    setSearchQuery(value);
                 }
+            }
         ),
         ),
         React.createElement(
@@ -144,7 +136,9 @@ function App() {
             {
                 genres,
                 selectedGenre,
-                onSelect: handleSelectGenre,
+                onSelect: (value) => {
+                    setSelectedGenre(value)
+                },
                 selectedSortBy: sortBy,
                 onSortByChange: (value) => {
                     setSortBy(value);
@@ -154,7 +148,7 @@ function App() {
         React.createElement(
             Movie,
             {
-                movies: sortedMoviesList,
+                movies: moviesList.data,
                 onMovieSelect: (movie) => handleMovieSelect(movie)
             }
         ),
@@ -172,4 +166,4 @@ function App() {
     );
 };
 
-export default App;
+export default MovieListPage;
