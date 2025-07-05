@@ -4,12 +4,12 @@ import MovieTitle from "../MovieTitle";
 
 const movie = 
       {
-            imageUrl: Movie3,
-            movieName: 'Inception',
+            poster_path: Movie3,
+            title: 'Inception',
             genres: ['Action', 'Sci-Fi', 'Thriller'],
-            duration: '2h 28m',
-            releaseYr: 2010,
-            desc: 'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
+            runtime: '2h 28m',
+            release_date: 2010,
+            overview: 'A thief who steals corporate secrets through use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
         };
 
 describe('MovieTitle component', () => {
