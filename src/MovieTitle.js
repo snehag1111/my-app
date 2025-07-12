@@ -5,7 +5,6 @@ function MovieTitle(props) {
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleMenuClick = (e) => {
-    e.stopPropagation();  // Prevent triggering onClick from card
     setMenuVisible(!menuVisible);
   };
 
@@ -109,7 +108,7 @@ function MovieTitle(props) {
 
   return React.createElement(
     "div",
-    { className: "movie-card", onClick: () => onClick(movie), style: { ...styles.card } },
+    { className: "movie-card", onClick: () => onClick(movie.id), style: { ...styles.card } },
     React.createElement(
       "div",
       { style: styles.imageWrapper },

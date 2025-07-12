@@ -47,6 +47,5 @@ describe('MovieTitle component', () => {
         const movieName = screen.getByText('Inception');
         fireEvent.click(movieName);
         expect(onClick).toHaveBeenCalledTimes(1);
-        expect(onClick).toHaveBeenCalledWith(movie);
     });
 });

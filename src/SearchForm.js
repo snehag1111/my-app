@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function SearchForm(props) {
     const[query, setQuery] = useState(props.initialQuery);
@@ -56,6 +56,10 @@ function SearchForm(props) {
     const handleButtonOut = (event) => {
         event.target.style.backgroundColor = '#e74c3c'
     }
+
+    useEffect(() => {
+        setQuery(props.initialQuery);
+    }, [props.initialQuery]);
 
     return React.createElement(
         'div',

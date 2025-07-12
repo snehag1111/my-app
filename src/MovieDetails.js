@@ -2,8 +2,6 @@ import React from "react";
 
 const MovieDetails = ({ movie, onSearchClick }) => {
 
-    console.log('movie ' + movie);
-
     const styles = {
         wrapper: {
             position: 'absolute', // key to anchor the search icon

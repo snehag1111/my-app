@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MovieListPage from './MovieListPage';
+import MainApp from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   React.createElement(
-    MovieListPage
+    MainApp
   )
 );
