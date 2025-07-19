@@ -1,7 +1,7 @@
 import React from "react";
 import MovieTitle from "./MovieTitle"
 
-const Movie = ({ movies, onMovieSelect }) => {
+const Movie = ({ movies, onMovieSelect, onMovieEdit }) => {
     return React.createElement(
         'div',
         { style: { display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '598px', marginLeft: '116px', width: '1080px' } },
@@ -11,7 +11,8 @@ const Movie = ({ movies, onMovieSelect }) => {
                 {
                     key: index,
                     movie,
-                    onClick: () => onMovieSelect(movie)
+                    onClick: () => onMovieSelect(movie),
+                    onMovieEdit: () => onMovieEdit(movie)
                 }
             )
         })
