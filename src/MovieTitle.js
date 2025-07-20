@@ -9,13 +9,6 @@ function MovieTitle(props) {
     setMenuVisible(!menuVisible);
   };
 
-  // const handleEdit = () => {
-  //   console.log("Edit movie");
-  //   setMenuVisible(false);
-  //   movie.action = 'Edit';
-  //   onClick(movie);
-  // };
-
   const handleDelete = () => {
     console.log("Delete movie");
     setMenuVisible(false);
@@ -121,7 +114,7 @@ function MovieTitle(props) {
       React.createElement(
         "button",
         { onClick: handleMenuClick, style: styles.menuButton },
-        <b>⋮</b> // Three-dot character
+        <b>⋮</b> 
       ),
       menuVisible &&
         React.createElement(

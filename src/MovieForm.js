@@ -1,27 +1,30 @@
 import { Field, Form, Formik } from "formik";
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 const MovieForm  =({ initialMovie, onSubmit }) => {
 
-    console.log('initialMovie ');
-    console.log(initialMovie);
-
-    // const [movie, setMovie] = useState(
-        const initialValues = {
+    const initialValues = {
+        id: initialMovie?.id || 0,
         title: initialMovie?.title || '', 
-    releaseDate: initialMovie?.release_date || '', 
-    movieUrl: initialMovie?.poster_path || '', 
-    rating: initialMovie?.rating || 0, 
-    genre: initialMovie?.genres || '', 
-    runtime: initialMovie?.runtime || 0, 
-    overview: initialMovie?.overview || ''
+        releaseDate: initialMovie?.release_date || '', 
+        movieUrl: initialMovie?.poster_path || '', 
+        rating: initialMovie?.rating || 0, 
+        genre: Array.isArray(initialMovie?.genres) ? initialMovie.genres : [],
+        runtime: initialMovie?.runtime || 0, 
+        overview: initialMovie?.overview || ''
     };
 
-    console.log('initialValues ');
-    console.log(initialValues);
-// );
+    const genreOptions = [
+        { value: 'Documentary', label: 'Documentary' },
+        { value: 'Comedy', label: 'Comedy' },
+        { value: 'Horror', label: 'Horror' },
+        { value: 'Crime', label: 'Crime' },
+    ];
 
     const validate = (values) => {
+        console.log('values');
+        console.log(values);
         const errors = {};
         if(!values.title) {
             errors.title = 'Title is required';
@@ -31,53 +34,28 @@ const MovieForm  =({ initialMovie, onSubmit }) => {
             errors.releaseDate = 'Release Date is required';
         }
 
-        // if(!values.movieUrl && !'^https?:\/\/.*\..*'.test(values.movieUrl)) {
         if(!values.movieUrl) {
             errors.movieUrl = 'Invalid URL';
         }
 
-        if(!values.rating && (values.rating < 0 || values.rating > 10)) {
-            errors.rating = 'Rating must be 0 and 10';
+        if(!values.rating && (values.rating < 1 || values.rating > 10)) {
+            errors.rating = 'Rating must be between 1 and 10';
+        }
+
+        if (!values.genre || values.genre.length === 0) {
+            errors.genre = 'Genre is required';
+        }
+
+        if(!values.runtime && values.runtime < 1) {
+            errors.runtime = 'Runtime is required';
+        }
+
+        if(!values.overview) {
+            errors.overview = 'Overview is required';
         }
 
         return errors;
     };
-
-    // useEffect(() => {
-    //     if(initialMovie) {
-    //         setMovie({
-    //             title: initialMovie.title,
-    //             releaseDate: initialMovie.releaseDate,
-    //             movieUrl: initialMovie.movieUrl,
-    //             rating: initialMovie.rating,
-    //             genre: initialMovie.genre,
-    //             runtime: initialMovie.runtime,
-    //             overview: initialMovie.overview
-    //         });
-    //     }
-    // }, [initialMovie]);
-
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setMovie({ ...movie, [name]: value });
-    // };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     onSubmit(movie);
-    // };
-
-    // const handleReset = () => {
-    //     setMovie({
-    //         title: '',
-    //         releaseYear: '',
-    //         movieUrl: '',
-    //         rating: '',
-    //         genre: '',
-    //         runtime: '',
-    //         overview: ''
-    //     });
-    // };
 
 const styles = {
   form: {
@@ -88,7 +66,7 @@ const styles = {
   },
   columnContainer: {
     display: 'grid',
-    gridTemplateColumns: '2fr 1fr',  // Two columns
+    gridTemplateColumns: '2fr 1fr',
     gridColumnGap: '40px',
     gridRowGap: '20px',
   },
@@ -98,17 +76,17 @@ const styles = {
     marginBottom: '15px',
   },
    input: {
-    width: '100%',        // Set the input width to 100% of the container
-    height: '30px',       // Set a custom height for the input
-    padding: '5px',       // Add padding to make the input more user-friendly
+    width: '100%',        
+    height: '30px',       
+    padding: '5px',       
     fontSize: '20px',
     backgroundColor: 'rgb(95 92 92)',
     color: 'rgb(225 225 225)',
   },
   select: {
     width: '100%',
-    height: '45px',  // Increase height of the select dropdown
-    padding: '5px',  // Optional: Add padding to give space inside the select box
+    height: '45px',  
+    padding: '5px',  
     backgroundColor: 'rgb(95 92 92)',
     fontSize: '20px',
   },
@@ -117,7 +95,7 @@ const styles = {
     flexDirection: 'column',
     marginBottom: '15px',
     height: '100px',
-    padding: '5px',  // Optional: Add padding to give space inside the select box
+    padding: '5px',  
     backgroundColor: 'rgb(95 92 92)',
     fontSize: '20px',
     color: 'rgb(225 225 225)',
@@ -159,7 +137,7 @@ const styles = {
           <div style={styles.columnContainer}>
             <div style={styles.inputGroup}>
               <label htmlFor="title">TITLE</label>
-              <Field name="title" type="text" style={styles.input} />
+              <Field id="title" name="title" type="text" style={styles.input} />
               {errors.title && touched.title && (
                 <div style={styles.error}>{errors.title}</div>
               )}
@@ -167,7 +145,7 @@ const styles = {
 
             <div style={styles.inputGroup}>
               <label htmlFor="releaseDate">RELEASE DATE</label>
-              <Field name="releaseDate" type="date" style={styles.input} />
+              <Field id="releaseDate" name="releaseDate" type="date" style={styles.input} />
               {errors.releaseDate && touched.releaseDate && (
                 <div style={styles.error}>{errors.releaseDate}</div>
               )}
@@ -175,7 +153,7 @@ const styles = {
 
             <div style={styles.inputGroup}>
               <label htmlFor="movieUrl">MOVIE URL</label>
-              <Field name="movieUrl" type="url" style={styles.input} />
+              <Field id="movieUrl" name="movieUrl" type="url" style={styles.input} />
               {errors.movieUrl && touched.movieUrl && (
                 <div style={styles.error}>{errors.movieUrl}</div>
               )}
@@ -183,32 +161,49 @@ const styles = {
 
             <div style={styles.inputGroup}>
               <label htmlFor="rating">RATING</label>
-              <Field name="rating" type="number" style={styles.input} />
+              <Field id="rating" name="rating" type="number" style={styles.input} />
               {errors.rating && touched.rating && (
                 <div style={styles.error}>{errors.rating}</div>
               )}
             </div>
-
             <div style={styles.inputGroup}>
-              <label htmlFor="genre">GENRE</label>
-              <Field name="genre" as="select" style={styles.select}>
-                <option value="">Select Genre</option>
-                <option value="Documentary">Documentary</option>
-                <option value="Comedy">Comedy</option>
-                <option value="Horror">Horror</option>
-                <option value="Crime">Crime</option>
-              </Field>
+                <label htmlFor="genre-select">GENRE</label>
+                <Field id="genre" name="genre">
+                {({ form, field }) => (
+                    <Select
+                    inputId="genre-select"
+                    isMulti
+                    options={genreOptions}
+                    value={genreOptions.filter(opt => field.value.includes(opt.value))}
+                    onChange={(selectedOptions) =>
+                        form.setFieldValue(
+                        'genre',
+                        selectedOptions.map(opt => opt.value)
+                        )
+                    }
+                    />
+                )}
+                </Field>
+                {errors.genre && touched.genre && (
+                    <div style={styles.error}>{errors.genre}</div>
+                )}
             </div>
 
             <div style={styles.inputGroup}>
               <label htmlFor="runtime">RUNTIME</label>
-              <Field name="runtime" type="number" style={styles.input} />
+              <Field id="runtime" name="runtime" type="number" style={styles.input} />
+              {errors.runtime && touched.runtime && (
+                <div style={styles.error}>{errors.runtime}</div>
+              )}
             </div>
           </div>
 
           <div style={styles.inputGroup}>
             <label htmlFor="overview">OVERVIEW</label>
-            <Field name="overview" as="textarea" style={styles.textArea} />
+            <Field id="overview" name="overview" as="textarea" style={styles.textArea} />
+            {errors.overview && touched.overview && (
+                <div style={styles.error}>{errors.overview}</div>
+              )}
           </div>
 
           <div style={styles.buttonGroup}>
@@ -226,103 +221,6 @@ const styles = {
         </Form>
             )}
         </Formik>
-
-
-
-        // <form onSubmit={handleSubmit} style={styles.form}>
-        //     <div style={styles.columnContainer}>
-        //     <div style={styles.inputGroup}>
-        //         <label htmlFor="title">TITLE</label>
-        //         <input
-        //             type="text"
-        //             id="title"
-        //             name="title"
-        //             value={movie.title}
-        //             onChange={handleInputChange}
-        //             style={styles.input}
-        //             required
-        //         />
-        //     </div>
-        //     <div style={styles.inputGroup}>
-        //         <label htmlFor="releaseDate">RELEASE DATE</label>
-        //         <input
-        //             type="date"
-        //             id="releaseDate"
-        //             name="releaseDate"
-        //             value={movie.releaseDate}
-        //             onChange={handleInputChange}
-        //             style={styles.input}
-        //         />
-        //     </div>
-        //     <div style={styles.inputGroup}>
-        //         <label htmlFor="movieUrl">MOVIE URL</label>
-        //         <input
-        //             type="url"
-        //             id="movieUrl"
-        //             name="movieUrl"
-        //             value={movie.movieUrl}
-        //             onChange={handleInputChange}
-        //             style={styles.input}
-        //         />
-        //     </div>
-        //     <div style={styles.inputGroup}>
-        //         <label htmlFor="rating">RATING</label>
-        //         <input
-        //             type="number"
-        //             id="rating"
-        //             name="rating"
-        //             value={movie.rating}
-        //             onChange={handleInputChange}
-        //             style={styles.input}
-        //         />
-        //     </div>
-        //     <div style={styles.inputGroup}>
-        //         <label htmlFor="genre">GENRE</label>
-        //         <select
-        //             id="genre"
-        //             name="genre"
-        //             value={movie.genre}
-        //             onChange={handleInputChange}
-        //             style={styles.select}
-        //         >
-        //         <option value="">Select Genre</option>
-        //         <option value="Documentary">Documentary</option>
-        //         <option value="Comedy">Comedy</option>
-        //         <option value="Horror">Horror</option>
-        //         <option value="Crime">Crime</option>
-        //         </select>
-        //     </div>
-        //     <div style={styles.inputGroup}>
-        //         <label htmlFor="runtime">RUNTIME</label>
-        //         <input
-        //             type="text"
-        //             id="runtime"
-        //             name="runtime"
-        //             value={movie.runtime}
-        //             onChange={handleInputChange}
-        //             style={styles.input}
-        //         />
-        //     </div>
-        //     </div>
-        //     <div style={styles.inputGroup}>
-        //         <label htmlFor="overview">OVERVIEW</label>
-        //         <textarea
-        //             id="overview"
-        //             name="overview"
-        //             value={movie.overview}
-        //             onChange={handleInputChange}
-        //             style={styles.textAreaGroup}
-        //         />
-        //     </div>
-        //     <div style={styles.buttonGroup}>
-        //         <button type="button" onClick={handleReset} style={styles.resetButton}>
-        //             Reset
-        //         </button>
-        //         <button type="submit" style={styles.submitButton}>
-        //             Submit
-        //         </button>
-        //     </div>
-        // </form>
     );
 };
 
