@@ -4,13 +4,13 @@ import MovieListPage from "./MovieListPage";
 const App = () => {
 
     return (
-        <div>
-            <Routes>
-                <Route path="/" element={<MovieListPage />} >
-                    <Route path="/movie/:movieId" element={<MovieListPage />} />
-                </Route>
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/" element={<MovieListPage />}>
+                <Route path="movie/:movieId" element={<MovieListPage />} />
+                <Route path="new" element={<MovieListPage />} />
+                <Route path="edit/:id" element={<MovieListPage />} />
+            </Route>
+        </Routes>
     );
 };
 

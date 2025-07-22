@@ -6,6 +6,7 @@ const MovieDetails = ({ movie, onSearchClick }) => {
         wrapper: {
             position: 'absolute', // key to anchor the search icon
             display: 'inline-block', // only as wide as the content
+            top: '30px',
         },
         searchIcon: {
         position: 'absolute',
