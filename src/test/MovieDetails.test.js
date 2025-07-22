@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import MovieDetails from "../MovieDetails";
 import Movie3 from '../images/Movie3.png';
 
-
 const movie = 
       {
             poster_path: Movie3,
