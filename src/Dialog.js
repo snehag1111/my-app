@@ -61,8 +61,11 @@ import ReactDOM from 'react-dom';
 
     return ReactDOM.createPortal(
         <div style={styles.overlay}>
-            <FocusTrap>
-            <div style={styles.dialog} className="fade-in">
+            <FocusTrap
+                focusTrapOptions={{
+                    fallbackFocus: '#fallback-node',
+                }}>
+            <div id="fallback-node" style={styles.dialog} className="fade-in">
                 <div style={styles.header}>
                     <div style={styles.title}>{title}</div>
                     <button style={styles.closeButton} onClick={onClose} aria-label="Close Dialog">

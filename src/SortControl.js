@@ -43,8 +43,8 @@ const SortControl = ({ selectedValue, onChange }) => {
                 React.createElement(
                     'option',
                     { 
-                        key: 'release', 
-                        value: 'Release Date'
+                        key: 'release_date', 
+                        value: 'release_date'
                     },
                     'RELEASE DATE'
                 ),
@@ -52,7 +52,7 @@ const SortControl = ({ selectedValue, onChange }) => {
                     'option',
                     {
                         key: 'title',
-                        value: 'Title'
+                        value: 'title'
                     },
                     'TITLE'
                 )

@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 
 function MovieTitle(props) {
-  const { movie, onClick } = props;
+  const { movie, onClick, onMovieEdit } = props;
   const [menuVisible, setMenuVisible] = useState(false);
 
   const handleMenuClick = (e) => {
-    e.stopPropagation();  // Prevent triggering onClick from card
+    e.stopPropagation();
     setMenuVisible(!menuVisible);
-  };
-
-  const handleEdit = () => {
-    console.log("Edit movie");
-    setMenuVisible(false);
-    movie.action = 'Edit';
-    onClick(movie);
   };
 
   const handleDelete = () => {
@@ -109,19 +102,19 @@ function MovieTitle(props) {
 
   return React.createElement(
     "div",
-    { className: "movie-card", onClick: () => onClick(movie), style: { ...styles.card } },
+    { className: "movie-card", onClick: () => onClick(movie.id), style: { ...styles.card } },
     React.createElement(
       "div",
       { style: styles.imageWrapper },
       React.createElement("img", {
-        src: movie.imageUrl,
-        alt: movie.movieName,
+        src: movie.poster_path,
+        alt: movie.title,
         style: styles.image,
       }),
       React.createElement(
         "button",
         { onClick: handleMenuClick, style: styles.menuButton },
-        <b>⋮</b> // Three-dot character
+        <b>⋮</b> 
       ),
       menuVisible &&
         React.createElement(
@@ -129,7 +122,7 @@ function MovieTitle(props) {
           { style: styles.menu },
           React.createElement(
             "button",
-            { onClick: handleEdit, style: styles.menuItem },
+            { onClick: (e) => { e.stopPropagation();onMovieEdit(movie);setMenuVisible(false); }, style: styles.menuItem },
             "Edit"
           ),
           React.createElement(
@@ -148,12 +141,12 @@ function MovieTitle(props) {
         React.createElement(
           "div",
           { style: styles.title },
-          movie.movieName
+          movie.title
         ),
         React.createElement(
           "span",
           { style: styles.releaseYear },
-          movie.releaseYr
+          movie.release_date
         )
       ),
       React.createElement(

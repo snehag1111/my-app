@@ -12,8 +12,8 @@ describe('Sort Control', () => {
         );
         expect(screen.getByText('SORT BY')).toBeInTheDocument();
         expect(screen.getByRole('combobox')).toBeInTheDocument();
-        expect(screen.getAllByRole('option')[0].value).toBe('Release Date');
-        expect(screen.getAllByRole('option')[1].value).toBe('Title');
+        expect(screen.getAllByRole('option')[0].value).toBe('release_date');
+        expect(screen.getAllByRole('option')[1].value).toBe('title');
     });
 
     test('selectes the correct initial value', () => {
@@ -24,7 +24,7 @@ describe('Sort Control', () => {
             />
         );
         const drpDwn = screen.getByRole('combobox');
-        expect(drpDwn.value).toBe('Title');
+        expect(drpDwn.value).toBe('release_date');
     });
 
     test('calls onChange when a new option is selected', () => {
@@ -36,8 +36,8 @@ describe('Sort Control', () => {
             />
         );
         const drpDwn = screen.getByRole('combobox');
-        fireEvent.change(drpDwn, { target: { value: 'Title' } });
+        fireEvent.change(drpDwn, { target: { value: 'title' } });
         expect(handleChange).toHaveBeenCalledTimes(1);
-        expect(handleChange).toHaveBeenCalledWith('Title');
+        expect(handleChange).toHaveBeenCalledWith('title');
     });
 });
